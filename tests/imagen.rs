@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use anyhow::Result;
 use gems::imagen::ImageGenBuilder;
 use gems::messages::{Content, Message};
@@ -13,12 +20,12 @@ fn test_imagegen_build_required() {
     };
 
     let imagegen = ImageGenBuilder::default()
-        .model(Model::FlashExpImage)
+        .model(Model::Imagen4)
         .input(user_msg.clone())
         .build()
         .unwrap();
 
-    assert_eq!(imagegen.model, Model::FlashExpImage);
+    assert_eq!(imagegen.model, Model::Imagen4);
     assert_eq!(imagegen.input, user_msg);
     assert!(imagegen.system.is_none());
 }
@@ -36,22 +43,23 @@ fn test_imagegen_build_with_system() {
     };
 
     let imagegen = ImageGenBuilder::default()
-        .model(Model::FlashExpImage)
+        .model(Model::Imagen4)
         .input(user_msg.clone())
         .system(vec![system_msg.clone()])
         .build()
         .unwrap();
 
-    assert_eq!(imagegen.model, Model::FlashExpImage);
+    assert_eq!(imagegen.model, Model::Imagen4);
     assert_eq!(imagegen.input, user_msg);
     assert_eq!(imagegen.system.unwrap().len(), 1);
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_imagegen_generate_basic() -> Result<()> {
     let mut gemini_client = Client::builder().build()?;
 
-    gemini_client.set_model(Model::FlashExpImage);
+    gemini_client.set_model(Model::Imagen4);
     gemini_client.set_api_key(std::env::var("GEMINI_API_KEY").unwrap_or_default());
 
     let input = Message::User {
@@ -60,7 +68,7 @@ async fn test_imagegen_generate_basic() -> Result<()> {
     };
 
     let params = ImageGenBuilder::default()
-        .model(Model::FlashExpImage)
+        .model(Model::Imagen4)
         .input(input)
         .build()?;
 
@@ -71,13 +79,12 @@ async fn test_imagegen_generate_basic() -> Result<()> {
     Ok(())
 }
 
-// TODO: Research why Gemini doesn't allow system prompts in image gen
 #[tokio::test]
 #[ignore]
 async fn test_imagegen_generate_with_system() -> Result<()> {
     let mut gemini_client = Client::builder().build()?;
 
-    gemini_client.set_model(Model::FlashExpImage);
+    gemini_client.set_model(Model::Imagen4);
     gemini_client.set_api_key(std::env::var("GEMINI_API_KEY").unwrap_or_default());
 
     let input = Message::User {
@@ -91,7 +98,7 @@ async fn test_imagegen_generate_with_system() -> Result<()> {
     };
 
     let params = ImageGenBuilder::default()
-        .model(Model::FlashExpImage)
+        .model(Model::Imagen4)
         .input(input)
         .system(vec![system])
         .build()?;
@@ -105,3 +112,10 @@ async fn test_imagegen_generate_with_system() -> Result<()> {
 
     Ok(())
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

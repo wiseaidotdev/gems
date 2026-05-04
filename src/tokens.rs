@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::messages::Message;
 use crate::models::Model;
 use crate::requests::Content;
@@ -48,3 +55,10 @@ impl Tokens {
         Ok(json["totalTokens"].as_u64().unwrap_or(0) as usize)
     }
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

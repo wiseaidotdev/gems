@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use serde::{Deserialize, Serialize};
 
 /// Request structure for content generation.
@@ -144,3 +151,29 @@ pub struct PrebuiltVoiceConfig {
     #[serde(rename = "voiceName")]
     pub voice_name: String,
 }
+
+#[derive(Debug, Serialize)]
+pub struct ImagenRequest {
+    pub instances: Vec<ImagenPrompt>,
+    pub parameters: ImagenParameters,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ImagenPrompt {
+    pub prompt: String,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ImagenParameters {
+    #[serde(rename = "sampleCount")]
+    pub sample_count: u32,
+    #[serde(rename = "aspectRatio", skip_serializing_if = "Option::is_none")]
+    pub aspect_ratio: Option<String>,
+}
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

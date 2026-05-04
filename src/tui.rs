@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use anyhow::Result;
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode},
@@ -95,7 +102,7 @@ impl Default for App {
             input_mode: InputMode::Normal,
             selected_tab: Tab::Settings,
             api_key: Input::default(),
-            selected_model: Input::new("gemini-2.0-flash".to_string()),
+            selected_model: Input::new("gemini-3-flash-preview".to_string()),
             user_input: Input::default(),
             chat_history: vec![],
             current_input: None,
@@ -152,10 +159,8 @@ async fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> Result<()> {
                     KeyCode::Left | KeyCode::Char('a') => {
                         app.selected_tab = app.selected_tab.previous()
                     }
-                    KeyCode::Up => {
-                        if app.scroll_chat > 0 {
-                            app.scroll_chat -= 1;
-                        }
+                    KeyCode::Up if app.scroll_chat > 0 => {
+                        app.scroll_chat -= 1;
                     }
                     KeyCode::Down => {
                         app.scroll_chat += 1;
@@ -181,7 +186,7 @@ async fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> Result<()> {
                             app.chat_history.push(user_msg);
 
                             let parameters = StreamBuilder::default()
-                                .model(Model::Flash20)
+                                .model(Model::Flash3Preview)
                                 .input(Message::User {
                                     content: Content::Text(msg),
                                     name: None,
@@ -463,7 +468,7 @@ fn ui(f: &mut Frame, app: &mut App) {
     )
     .centered();
 
-    let bottom_footer = Line::raw("© Kevin RS Foundation")
+    let bottom_footer = Line::raw("© Wise AI Foundation")
         .fg(Color::LightGreen)
         .bg(tailwind::SLATE.c700)
         .bold()
@@ -472,3 +477,10 @@ fn ui(f: &mut Frame, app: &mut App) {
     f.render_widget(top_footer, footer_layout[0]);
     f.render_widget(bottom_footer, footer_layout[2]);
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

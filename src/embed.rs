@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::client::Client;
 use crate::messages::Message;
 use crate::models::Model;
@@ -33,7 +40,7 @@ pub struct Embeddings {
 impl Embeddings {
     pub async fn create(&self, params: Embedding) -> Result<EmbedContentResponse> {
         let request_body = GeminiEmbedRequest {
-            model: format!("models/{}", params.model.to_string()),
+            model: format!("models/{}", params.model),
             content: Content {
                 parts: vec![params.input.to_part()],
             },
@@ -53,7 +60,7 @@ impl Embeddings {
             .input
             .into_iter()
             .map(|message| GeminiEmbedRequest {
-                model: format!("models/{}", params.model.to_string()),
+                model: format!("models/{}", params.model),
                 content: Content {
                     parts: vec![message.to_part()],
                 },
@@ -71,3 +78,10 @@ impl Embeddings {
         Ok(res.json().await?)
     }
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
