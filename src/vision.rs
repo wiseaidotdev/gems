@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::messages::Content;
 use crate::messages::Message;
 use crate::models::Model;
@@ -50,7 +57,7 @@ impl Visions {
         }));
 
         let request_body = GeminiRequest {
-            model: Model::Pro25Preview.to_string(),
+            model: Model::Pro31Preview.to_string(),
             contents: vec![crate::requests::Content {
                 parts: vec![input_part, image_part],
             }],
@@ -76,3 +83,10 @@ impl Visions {
         }
     }
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

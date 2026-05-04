@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::responses::ModelInfo;
 use crate::responses::ModelsResponse;
 use crate::traits::CTrait;
@@ -9,39 +16,32 @@ use std::str::FromStr;
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub enum Model {
-    Pro25Preview,
+    Pro31Preview,
     #[default]
-    Flash20,
-    Flash20Lite,
-    Flash15,
-    Flash15_8B,
-    Pro15,
-    Embedding,
-    Imagen3,
-    Veo2,
-    Tts,
-    Flash20Live,
-    FlashExpImage,
+    Flash3Preview,
+    Flash31LitePreview,
+    Embedding001,
+    Imagen4,
+    Veo31Preview,
+    Tts31Preview,
+    Flash31LivePreview,
+    Flash31ImagePreview,
 }
 
-#[allow(clippy::to_string_trait_impl)]
-impl ToString for Model {
-    fn to_string(&self) -> String {
-        match self {
-            Model::Pro25Preview => "gemini-2.5-pro-preview-03-25",
-            Model::Flash20 => "gemini-2.0-flash",
-            Model::Flash20Lite => "gemini-2.0-flash-lite",
-            Model::Flash15 => "gemini-1.5-flash",
-            Model::Flash15_8B => "gemini-1.5-flash-8b",
-            Model::Pro15 => "gemini-1.5-pro",
-            Model::Embedding => "text-embedding-004",
-            Model::Imagen3 => "imagen-3.0-generate-002",
-            Model::Veo2 => "veo-2.0-generate-001",
-            Model::Tts => "gemini-2.5-flash-preview-tts",
-            Model::Flash20Live => "gemini-2.0-flash-live-001",
-            Model::FlashExpImage => "gemini-2.0-flash-exp-image-generation",
-        }
-        .to_string()
+impl std::fmt::Display for Model {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Model::Pro31Preview => "gemini-3.1-pro-preview",
+            Model::Flash3Preview => "gemini-3-flash-preview",
+            Model::Flash31LitePreview => "gemini-3.1-flash-lite-preview",
+            Model::Embedding001 => "gemini-embedding-001",
+            Model::Imagen4 => "imagen-4.0-generate-001",
+            Model::Veo31Preview => "veo-3.1-generate-preview",
+            Model::Tts31Preview => "gemini-3.1-flash-tts-preview",
+            Model::Flash31LivePreview => "gemini-3.1-flash-live-preview",
+            Model::Flash31ImagePreview => "gemini-3.1-flash-image-preview",
+        };
+        write!(f, "{}", s)
     }
 }
 
@@ -50,18 +50,15 @@ impl FromStr for Model {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "gemini-2.5-pro-preview-03-25" => Ok(Model::Pro25Preview),
-            "gemini-2.0-flash" => Ok(Model::Flash20),
-            "gemini-2.0-flash-lite" => Ok(Model::Flash20Lite),
-            "gemini-1.5-flash" => Ok(Model::Flash15),
-            "gemini-1.5-flash-8b" => Ok(Model::Flash15_8B),
-            "gemini-1.5-pro" => Ok(Model::Pro15),
-            "text-embedding-004" => Ok(Model::Embedding),
-            "imagen-3.0-generate-002" => Ok(Model::Imagen3),
-            "veo-2.0-generate-001" => Ok(Model::Veo2),
-            "gemini-2.5-flash-preview-tts" => Ok(Model::Tts),
-            "gemini-2.0-flash-live-001" => Ok(Model::Flash20Live),
-            "gemini-2.0-flash-exp-image-generation" => Ok(Model::Flash20Live),
+            "gemini-3.1-pro-preview" => Ok(Model::Pro31Preview),
+            "gemini-3-flash-preview" => Ok(Model::Flash3Preview),
+            "gemini-3.1-flash-lite-preview" => Ok(Model::Flash31LitePreview),
+            "gemini-embedding-001" => Ok(Model::Embedding001),
+            "imagen-4.0-generate-001" => Ok(Model::Imagen4),
+            "veo-3.1-generate-preview" => Ok(Model::Veo31Preview),
+            "gemini-3.1-flash-tts-preview" => Ok(Model::Tts31Preview),
+            "gemini-3.1-flash-live-preview" => Ok(Model::Flash31LivePreview),
+            "gemini-3.1-flash-image-preview" => Ok(Model::Flash31ImagePreview),
             _ => Err(anyhow!("Unknown model: {}", s)),
         }
     }
@@ -92,3 +89,10 @@ impl Models {
         Ok(res.json().await?)
     }
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

@@ -6,12 +6,12 @@
 [![docs](https://docs.rs/gems/badge.svg)](https://docs.rs/gems/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-| 🐧 Linux `(Recommended)` | 🪟 Windows |
-| :------: | :--------: |
-| ![gems-demo](https://github.com/user-attachments/assets/c446c29f-d4c8-4ee0-9e3d-951310e2b972) | ![gems-demo](https://github.com/user-attachments/assets/e942d1ad-7df6-4532-b22f-d4c586e64c8a) |
-| [Download Executable File](https://github.com/kevin-rs/gems/releases/download/v0.1.4/gems) | [Download `.exe` File](https://github.com/kevin-rs/gems/releases/download/v0.1.4/gems.exe) |
-| `cargo install gems --all-features` | `cargo install gems --all-features` |
-| `gems -h` | `gems -h` |
+|                                    🐧 Linux `(Recommended)`                                    |                                           🪟 Windows                                           |
+| :--------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------: |
+| ![gems-demo](https://github.com/user-attachments/assets/c446c29f-d4c8-4ee0-9e3d-951310e2b972)  | ![gems-demo](https://github.com/user-attachments/assets/e942d1ad-7df6-4532-b22f-d4c586e64c8a)  |
+| [Download Executable File](https://github.com/wiseaidotdev/gems/releases/download/v0.1.4/gems) | [Download `.exe` File](https://github.com/wiseaidotdev/gems/releases/download/v0.1.4/gems.exe) |
+|                              `cargo install gems --all-features`                               |                              `cargo install gems --all-features`                               |
+|                                           `gems -h`                                            |                                           `gems -h`                                            |
 
 </div>
 
@@ -143,32 +143,29 @@ gems
 
 ## 🎨 Options
 
-| Option                   | Description                                              |
-|--------------------------|----------------------------------------------------------|
-| ``                       | TUI mode.                                                |
-| `--api-key`              | Specify the API key for accessing the Gemini API.        |
-| `--model`                | Specify the model to use for generating content.         |
-
+| Option      | Description                                       |
+| ----------- | ------------------------------------------------- |
+| ``          | TUI mode.                                         |
+| `--api-key` | Specify the API key for accessing the Gemini API. |
+| `--model`   | Specify the model to use for generating content.  |
 
 ## 🛠 Subcommands
 
-| Subcommand              | Description                                              |
-|-------------------------|----------------------------------------------------------|
-| `generate`              | Generate creative content.                               |
-| `vision`                | Analyze an image and generate content from text.         |
-| `stream`                | Stream the generation of content.                        |
-| `imagen`                | Generate an image.                                       |
-| `vidgen`                | Generate a video.                                        |
-| `tts`                   | Text to speech.                                          |
-| `count`                 | Count the number of tokens in a text.                    |
-| `embed`                 | Embed content into a specified model.                    |
-| `batch`                 | Batch embed multiple contents.                           |
-| `info`                  | Get information about the current model.                 |
-| `list`                  | List available models.                                   |
-
+| Subcommand | Description                                      |
+| ---------- | ------------------------------------------------ |
+| `generate` | Generate creative content.                       |
+| `vision`   | Analyze an image and generate content from text. |
+| `stream`   | Stream the generation of content.                |
+| `imagen`   | Generate an image.                               |
+| `vidgen`   | Generate a video.                                |
+| `tts`      | Text to speech.                                  |
+| `count`    | Count the number of tokens in a text.            |
+| `embed`    | Embed content into a specified model.            |
+| `batch`    | Batch embed multiple contents.                   |
+| `info`     | Get information about the current model.         |
+| `list`     | List available models.                           |
 
 ## ✨ Usage as Dependency
-
 
 1. Add the `gems` crate:
 
@@ -195,7 +192,7 @@ gems
         gemini_client.set_api_key("your-api-key".to_string());
 
       let parameters = ChatBuilder::default()
-          .model(Model::Flash20)
+          .model(Model::Flash3Preview)
           .messages(vec![Message::User {
               content: Content::Text("Hello".to_string()),
               name: None,
@@ -222,7 +219,7 @@ This repository contains a list of notebooks examples on how to use the sdk and 
 1. Clone the repository to your local machine:
 
    ```sh
-   git clone https://github.com/kevin-rs/gems.git
+   git clone https://github.com/wiseaidotdev/gems.git
    ```
 
 1. Install the required dependencies and libraries. Make sure you have [`Rust`](https://rustup.rs/), [`Jupyter Notebook`](https://jupyter.org/install), and [`evcxr_jupyter`](https://github.com/evcxr/evcxr/blob/main/evcxr_jupyter/README.md) installed on your system.
@@ -230,13 +227,13 @@ This repository contains a list of notebooks examples on how to use the sdk and 
    ```sh
    # Install a Rust toolchain (e.g. nightly):
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly
- 
+
    # Install Jupyter Notebook
    pip install notebook
- 
+
    # Install evcxr_jupyter
    cargo install evcxr_jupyter
-   evcxr_jupyter --install 
+   evcxr_jupyter --install
    ```
 
 1. Navigate to the cloned repository and build the project:
@@ -254,16 +251,18 @@ This repository contains a list of notebooks examples on how to use the sdk and 
 
 1. Access the notebooks in your web browser by clicking on the notebook file you want to explore.
 
-| ID | Example | Open on GitHub | Launch on Binder | Launch on Colab |
-|----|---------------|-----------|:-------------|-------------|
-| 1  | **Basic** | [![Github](https://img.shields.io/badge/launch-Github-181717.svg?logo=github&logoColor=white)](./examples/basic.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kevin-rs/gems/main?filepath=examples/basic.ipynb) |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kevin-rs/gems/blob/main/examples/basic.ipynb) |
-| 2  | **Rocket** | [![Github](https://img.shields.io/badge/launch-Github-181717.svg?logo=github&logoColor=white)](./examples/rocket.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kevin-rs/gems/main?filepath=examples/rocket.ipynb) |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kevin-rs/gems/blob/main/examples/rocket.ipynb) |
-| 3  | **Axum** | [![Github](https://img.shields.io/badge/launch-Github-181717.svg?logo=github&logoColor=white)](./examples/axum.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kevin-rs/gems/main?filepath=examples/axum.ipynb) |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kevin-rs/gems/blob/main/examples/axum.ipynb) |
+| ID  | Example    | Open on GitHub                                                                                                          | Launch on Binder                                                                                                                   | Launch on Colab                                                                                                                                                          |
+| --- | ---------- | ----------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | **Basic**  | [![Github](https://img.shields.io/badge/launch-Github-181717.svg?logo=github&logoColor=white)](./examples/basic.ipynb)  | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/wiseaidotdev/gems/main?filepath=examples/basic.ipynb)  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wiseaidotdev/gems/blob/main/examples/basic.ipynb)  |
+| 2   | **Rocket** | [![Github](https://img.shields.io/badge/launch-Github-181717.svg?logo=github&logoColor=white)](./examples/rocket.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/wiseaidotdev/gems/main?filepath=examples/rocket.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wiseaidotdev/gems/blob/main/examples/rocket.ipynb) |
+| 3   | **Axum**   | [![Github](https://img.shields.io/badge/launch-Github-181717.svg?logo=github&logoColor=white)](./examples/axum.ipynb)   | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/wiseaidotdev/gems/main?filepath=examples/axum.ipynb)   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wiseaidotdev/gems/blob/main/examples/axum.ipynb)   |
 
 ## 🤝 Contributing
 
-Contributions and feedback are welcome! If you'd like to contribute, report an issue, or suggest an enhancement, please engage with the project on [GitHub](https://github.com/kevin-rs/gems). Your contributions help improve this crate for the community.
+Contributions and feedback are welcome! If you'd like to contribute, report an issue, or suggest an enhancement, please engage with the project on [GitHub](https://github.com/wiseaidotdev/gems). Your contributions help improve this crate for the community.
 
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
+© 2026 Wise AI Foundation

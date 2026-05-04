@@ -1,15 +1,20 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::client::Client;
 use crate::messages::Message;
 use crate::models::Model;
-use crate::requests::GenerationConfig;
-use crate::requests::{Content, GeminiRequest};
-use crate::responses::ImagenResponse;
+use crate::requests::{ImagenParameters, ImagenPrompt, ImagenRequest};
+use crate::responses::ImagenPredictResponse;
 use crate::traits::CTrait;
-use crate::utils::extract_image_or_text;
 use anyhow::{anyhow, Result};
+use base64::{engine::general_purpose, Engine as _};
 use derive_builder::Builder;
 use reqwest::Method;
-
 #[derive(Clone)]
 pub struct Images {
     pub client: Client,
@@ -26,40 +31,46 @@ pub struct ImageGen {
 
 impl Images {
     pub async fn generate(&self, params: ImageGen) -> Result<Vec<u8>> {
-        let content = Content {
-            parts: vec![params.input.to_part()],
-        };
-
-        let system_instruction = params.system.as_ref().map(|messages| Content {
-            parts: messages.iter().map(|msg| msg.to_part()).collect(),
-        });
-
-        let request_body = GeminiRequest {
-            model: params.model.to_string(),
-            contents: vec![content],
-            system_instruction,
-            config: Some(GenerationConfig {
-                response_modalities: vec!["Text".into(), "Image".into()],
-            }),
+        let request_body = ImagenRequest {
+            instances: vec![ImagenPrompt {
+                prompt: params.input.get_text(),
+            }],
+            parameters: ImagenParameters {
+                sample_count: 1,
+                aspect_ratio: Some("1:1".to_string()),
+            },
         };
 
         let req = self
             .client
-            .request(Method::POST, "generateContent")?
+            .request(Method::POST, "predict")?
             .json(&request_body);
 
         let res = req.send().await?;
-        let json: ImagenResponse = res.json().await?;
+        if !res.status().is_success() {
+            let status = res.status();
+            let error_text = res.text().await?;
+            return Err(anyhow!("API Error ({}): {}", status, error_text));
+        }
 
-        let parts = json
-            .candidates
-            .ok_or_else(|| anyhow!("Missing candidates"))?
+        let json: ImagenPredictResponse = res.json().await?;
+
+        let prediction = json
+            .predictions
             .first()
-            .ok_or_else(|| anyhow!("No candidate response"))?
-            .content
-            .parts
-            .clone();
+            .ok_or_else(|| anyhow!("No predictions in response"))?;
 
-        extract_image_or_text(&parts)
+        let image_data = general_purpose::STANDARD
+            .decode(&prediction.bytes_base64_encoded)
+            .map_err(|e| anyhow!("Failed to decode base64 image: {}", e))?;
+
+        Ok(image_data)
     }
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

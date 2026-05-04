@@ -90,7 +90,7 @@ EXAMPLES:
   TUI mode:
     gems
 
-For more information, visit: github.com/kevin-rs/gems
+For more information, visit: github.com/wiseaidotdev/gems
 "#
 )]
 pub struct Cli {

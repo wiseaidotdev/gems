@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use anyhow::Result;
 use gems::chat::ChatBuilder;
 use gems::messages::Content;
@@ -9,7 +16,7 @@ use gems::Client;
 #[test]
 fn test_build_with_required() {
     let chat = ChatBuilder::default()
-        .model(Model::Flash20)
+        .model(Model::Flash3Preview)
         .messages(vec![Message::User {
             content: Content::Text("Hello".into()),
             name: None,
@@ -17,7 +24,7 @@ fn test_build_with_required() {
         .build()
         .unwrap();
 
-    assert_eq!(chat.model, Model::Flash20);
+    assert_eq!(chat.model, Model::Flash3Preview);
     assert_eq!(chat.messages.len(), 1);
     assert!(chat.system.is_none());
 }
@@ -35,13 +42,13 @@ fn test_build_with_system() {
     };
 
     let chat = ChatBuilder::default()
-        .model(Model::Pro15)
+        .model(Model::Pro31Preview)
         .messages(vec![user_message.clone()])
         .system(vec![system_message.clone()])
         .build()
         .unwrap();
 
-    assert_eq!(chat.model, Model::Pro15);
+    assert_eq!(chat.model, Model::Pro31Preview);
     assert_eq!(chat.messages.len(), 1);
     assert_eq!(chat.system.as_ref().unwrap().len(), 1);
 }
@@ -49,7 +56,7 @@ fn test_build_with_system() {
 #[test]
 fn test_build_empty_messages() {
     let result = ChatBuilder::default()
-        .model(Model::Flash20)
+        .model(Model::Flash3Preview)
         .messages(vec![])
         .build();
 
@@ -85,7 +92,7 @@ fn test_build_clone() {
     };
 
     let chat = ChatBuilder::default()
-        .model(Model::Flash20)
+        .model(Model::Flash3Preview)
         .messages(vec![user_message.clone()])
         .build()
         .unwrap();
@@ -97,7 +104,7 @@ fn test_build_clone() {
 #[tokio::test]
 async fn test_required() -> Result<()> {
     let gemini_client = Client::builder()
-        .model(&Model::Flash20.to_string())
+        .model(&Model::Flash3Preview.to_string())
         .build()?;
 
     gemini_client.set_api_key(
@@ -107,7 +114,7 @@ async fn test_required() -> Result<()> {
     );
 
     let chat = ChatBuilder::default()
-        .model(Model::Flash20)
+        .model(Model::Flash3Preview)
         .messages(vec![Message::User {
             content: Content::Text("Hello".into()),
             name: None,
@@ -128,7 +135,9 @@ async fn test_required() -> Result<()> {
 #[tokio::test]
 #[ignore]
 async fn test_with_system() -> Result<()> {
-    let gemini_client = Client::builder().model(&Model::Pro15.to_string()).build()?;
+    let gemini_client = Client::builder()
+        .model(&Model::Pro31Preview.to_string())
+        .build()?;
 
     gemini_client.set_api_key(
         std::env::var("GEMINI_API_KEY")
@@ -147,7 +156,7 @@ async fn test_with_system() -> Result<()> {
     };
 
     let chat = ChatBuilder::default()
-        .model(Model::Pro15)
+        .model(Model::Pro31Preview)
         .messages(vec![user_message.clone()])
         .system(vec![system_message.clone()])
         .build()
@@ -171,7 +180,7 @@ async fn test_with_system() -> Result<()> {
 #[tokio::test]
 async fn test_empty_msgs() -> Result<()> {
     let gemini_client = Client::builder()
-        .model(&Model::Flash20.to_string())
+        .model(&Model::Flash3Preview.to_string())
         .build()?;
 
     gemini_client.set_api_key(
@@ -181,7 +190,7 @@ async fn test_empty_msgs() -> Result<()> {
     );
 
     let chat = ChatBuilder::default()
-        .model(Model::Flash20)
+        .model(Model::Flash3Preview)
         .messages(vec![])
         .build()
         .unwrap();
@@ -199,7 +208,7 @@ async fn test_empty_msgs() -> Result<()> {
 #[tokio::test]
 async fn test_default() -> Result<()> {
     let gemini_client = Client::builder()
-        .model(&Model::Flash20.to_string())
+        .model(&Model::Flash3Preview.to_string())
         .build()?;
 
     gemini_client.set_api_key(
@@ -226,7 +235,7 @@ async fn test_default() -> Result<()> {
 #[tokio::test]
 async fn test_clone() -> Result<()> {
     let gemini_client = Client::builder()
-        .model(&Model::Flash20.to_string())
+        .model(&Model::Flash3Preview.to_string())
         .build()?;
 
     gemini_client.set_api_key(
@@ -241,7 +250,7 @@ async fn test_clone() -> Result<()> {
     };
 
     let chat = ChatBuilder::default()
-        .model(Model::Flash20)
+        .model(Model::Flash3Preview)
         .messages(vec![user_message.clone()])
         .build()
         .unwrap();
@@ -260,3 +269,10 @@ async fn test_clone() -> Result<()> {
 
     Ok(())
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

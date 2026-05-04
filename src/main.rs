@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use anyhow::Result;
 
 /// The main entry point of `gems`.
@@ -35,26 +42,20 @@ async fn main() -> Result<()> {
 
         let args: Cli = Cli::parse();
 
-        let api_key = if args.api_key.is_none() {
-            env::var("GEMINI_API_KEY").unwrap_or_default().to_owned()
-        } else {
-            args.api_key.unwrap().to_owned()
-        };
+        let api_key = args
+            .api_key
+            .unwrap_or_else(|| env::var("GEMINI_API_KEY").unwrap_or_default());
 
-        let model = if args.model.is_none() {
-            env::var("GEMINI_MODEL")
-                .unwrap_or("gemini-2.0-flash".to_string())
-                .to_owned()
-        } else {
-            args.model.unwrap().to_owned()
-        };
+        let model = args.model.unwrap_or_else(|| {
+            env::var("GEMINI_MODEL").unwrap_or_else(|_| "gemini-3-flash-preview".to_string())
+        });
         let mut gemini_client = Client::builder().model(&model).build()?;
 
         gemini_client.set_api_key(api_key);
         match args.cmd {
             Some(Command::Generate(cmd)) => {
                 let parameters = ChatBuilder::default()
-                    .model(Model::Flash20)
+                    .model(Model::Flash3Preview)
                     .messages(vec![Message::User {
                         content: Content::Text(cmd.text),
                         name: None,
@@ -66,7 +67,7 @@ async fn main() -> Result<()> {
             }
             Some(Command::Stream(cmd)) => {
                 let parameters = StreamBuilder::default()
-                    .model(Model::Flash20)
+                    .model(Model::Flash3Preview)
                     .input(Message::User {
                         content: Content::Text(cmd.text),
                         name: None,
@@ -114,13 +115,13 @@ async fn main() -> Result<()> {
             }
             Some(Command::Embed(cmd)) => {
                 let params = EmbeddingBuilder::default()
-                    .model(Model::Embedding)
+                    .model(Model::Embedding001)
                     .input(Message::User {
                         content: Content::Text(cmd.text),
                         name: None,
                     })
                     .build()?;
-                gemini_client.set_model(Model::Embedding);
+                gemini_client.set_model(Model::Embedding001);
                 let response = gemini_client.embeddings().create(params).await?;
                 println!("Embed Content: {:?}", response);
             }
@@ -134,11 +135,11 @@ async fn main() -> Result<()> {
                     })
                     .collect();
                 let params = BatchEmbeddingBuilder::default()
-                    .model(Model::Embedding)
+                    .model(Model::Embedding001)
                     .input(texts)
                     .build()?;
 
-                gemini_client.set_model(Model::Embedding);
+                gemini_client.set_model(Model::Embedding001);
                 let response = gemini_client.embeddings().batch(params).await?;
                 println!("Batch Embed Contents: {:?}", response);
             }
@@ -173,14 +174,14 @@ async fn main() -> Result<()> {
                 models.print();
             }
             Some(Command::Imagen(cmd)) => {
-                gemini_client.set_model(Model::FlashExpImage);
+                gemini_client.set_model(Model::Imagen4);
 
                 let params = ImageGenBuilder::default()
                     .input(Message::User {
                         content: Content::Text(cmd.text),
                         name: None,
                     })
-                    .model(Model::FlashExpImage)
+                    .model(Model::Imagen4)
                     .build()
                     .unwrap();
 
@@ -189,10 +190,10 @@ async fn main() -> Result<()> {
                 tokio::fs::write("output.png", &image_data).await?;
             }
             Some(Command::Vidgen(cmd)) => {
-                gemini_client.set_model(Model::Veo2);
+                gemini_client.set_model(Model::Veo31Preview);
 
                 let params = VideoGenBuilder::default()
-                    .model(Model::Veo2)
+                    .model(Model::Veo31Preview)
                     .input(Message::User {
                         content: Content::Text(cmd.text),
                         name: None,
@@ -205,10 +206,10 @@ async fn main() -> Result<()> {
                 tokio::fs::write("output.mp4", &bytes).await?;
             }
             Some(Command::Tts(cmd)) => {
-                gemini_client.set_model(Model::Tts);
+                gemini_client.set_model(Model::Tts31Preview);
 
                 let params = TtsGenBuilder::default()
-                    .model(Model::Tts)
+                    .model(Model::Tts31Preview)
                     .input(Message::User {
                         content: Content::Text(cmd.text),
                         name: None,
@@ -228,3 +229,10 @@ async fn main() -> Result<()> {
     }
     Ok(())
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

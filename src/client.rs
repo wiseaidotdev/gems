@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::chat::Chats;
 use crate::embed::Embeddings;
 use crate::imagen::Images;
@@ -59,14 +66,9 @@ impl CTrait for Client {
         let full_url = if endpoint == "models" {
             GEMINI_BASE_URL.to_string()
         } else if endpoint.is_empty() {
-            format!("{}/{}", GEMINI_BASE_URL, self.get_model().to_string())
+            format!("{}/{}", GEMINI_BASE_URL, self.get_model())
         } else {
-            format!(
-                "{}/{}:{}",
-                GEMINI_BASE_URL,
-                self.get_model().to_string(),
-                endpoint
-            )
+            format!("{}/{}:{}", GEMINI_BASE_URL, self.get_model(), endpoint)
         };
         let parsed_url = Url::parse_with_params(&full_url, &[("key", api_key)]).unwrap();
 
@@ -162,3 +164,10 @@ impl CBuilder {
         })
     }
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

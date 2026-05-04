@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use anyhow::Result;
 use gems::embed::{BatchEmbeddingBuilder, EmbeddingBuilder};
 use gems::messages::{Content, Message};
@@ -13,12 +20,12 @@ fn test_embed_build_required() {
     };
 
     let embed = EmbeddingBuilder::default()
-        .model(Model::Embedding)
+        .model(Model::Embedding001)
         .input(message.clone())
         .build()
         .unwrap();
 
-    assert_eq!(embed.model, Model::Embedding);
+    assert_eq!(embed.model, Model::Embedding001);
     assert_eq!(embed.input, message);
 }
 
@@ -36,19 +43,19 @@ fn test_batch_embed_build() {
     ];
 
     let batch = BatchEmbeddingBuilder::default()
-        .model(Model::Embedding)
+        .model(Model::Embedding001)
         .input(inputs.clone())
         .build()
         .unwrap();
 
-    assert_eq!(batch.model, Model::Embedding);
+    assert_eq!(batch.model, Model::Embedding001);
     assert_eq!(batch.input, inputs);
 }
 
 #[tokio::test]
 async fn test_embed_create() -> Result<()> {
     let gemini_client = Client::builder()
-        .model(&Model::Embedding.to_string())
+        .model(&Model::Embedding001.to_string())
         .build()?;
 
     gemini_client.set_api_key(std::env::var("GEMINI_API_KEY").unwrap_or_default());
@@ -59,7 +66,7 @@ async fn test_embed_create() -> Result<()> {
     };
 
     let params = EmbeddingBuilder::default()
-        .model(Model::Embedding)
+        .model(Model::Embedding001)
         .input(input)
         .build()?;
 
@@ -84,7 +91,7 @@ async fn test_embed_create() -> Result<()> {
         );
     }
 
-    assert_eq!(embeddings.len(), 768, "Unexpected embedding vector size");
+    assert_eq!(embeddings.len(), 3072, "Unexpected embedding vector size");
 
     Ok(())
 }
@@ -92,7 +99,7 @@ async fn test_embed_create() -> Result<()> {
 #[tokio::test]
 async fn test_embed_batch() -> Result<()> {
     let gemini_client = Client::builder()
-        .model(&Model::Embedding.to_string())
+        .model(&Model::Embedding001.to_string())
         .build()?;
 
     gemini_client.set_api_key(std::env::var("GEMINI_API_KEY").unwrap_or_default());
@@ -109,7 +116,7 @@ async fn test_embed_batch() -> Result<()> {
     ];
 
     let params = BatchEmbeddingBuilder::default()
-        .model(Model::Embedding)
+        .model(Model::Embedding001)
         .input(inputs)
         .build()?;
 
@@ -123,3 +130,10 @@ async fn test_embed_batch() -> Result<()> {
 
     Ok(())
 }
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.

@@ -1,3 +1,10 @@
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
 use crate::requests::Candidate as ReqCandidate;
 use serde::{Deserialize, Serialize};
 
@@ -252,3 +259,23 @@ pub struct InlineData {
     pub mime_type: String,
     pub data: String,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct ImagenPredictResponse {
+    pub predictions: Vec<ImagenPrediction>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ImagenPrediction {
+    #[serde(rename = "mimeType")]
+    pub mime_type: String,
+    #[serde(rename = "bytesBase64Encoded")]
+    pub bytes_base64_encoded: String,
+}
+
+// Copyright 2026 Mahmoud Harmouch.
+//
+// Licensed under the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
